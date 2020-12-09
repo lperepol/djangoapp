@@ -1,0 +1,109 @@
+https://docs.microsoft.com/en-us/azure/app-service/tutorial-python-postgresql-app?tabs=bash%2Cclone
+
+az postgres up --resource-group DjangoPostgres-tutorial-rg --location westus2 --sku-name B_Gen5_1 --server-name postgresdjangoapp --database-name pollsdb --admin-user lperepol --admin-password law715ren*117 --ssl-enforcement Enabled
+
+az postgres up --resource-group DjangoPostgres-tutorial-rg --location westus2 --sku-name B_Gen5_1 --server-name postgresdjangoapp --database-name pollsdb --admin-user lperepol --admin-password law715ren*117 --ssl-enforcement Disabled
+
+
+Messsages:
+*************************************************************************************************************************
+Creating Resource Group 'DjangoPostgres-tutorial-rg'...
+Creating PostgreSQL Server 'postgresdjangoapp' in group 'DjangoPostgres-tutorial-rg'...
+Creating PostgreSQL database 'pollsdb'...
+Checking your ip address...
+Configuring server firewall rule, 'devbox', to allow for your ip address: 209.53.248.126
+If PostgreSQL server declines your IP address, please create a new firewall rule using:
+    `az postgres server firewall-rule create -g DjangoPostgres-tutorial-rg -s postgresdjangoapp -n {rule_name} --start-ip-address {ip_address} --end-ip-address {ip_address}`
+Configuring server firewall rule, 'azure-access', to accept connections from all Azure resources...
+Successfully Connected to PostgreSQL.
+Ran Database Query: `CREATE USER root WITH ENCRYPTED PASSWORD 'Pollsdb1'`
+Ran Database Query: `GRANT ALL PRIVILEGES ON DATABASE pollsdb TO root`
+{
+  "connectionStrings": {
+    "ado.net": "Server=postgresdjangoapp.postgres.database.azure.com;Database=pollsdb;Port=5432;User Id=lperepol@postgresdjangoapp;Password=law715ren*117;",
+    "jdbc": "jdbc:postgresql://postgresdjangoapp.postgres.database.azure.com:5432/pollsdb?user=lperepol@postgresdjangoapp&password=law715ren*117",
+    "jdbc Spring": "spring.datasource.url=jdbc:postgresql://postgresdjangoapp.postgres.database.azure.com:5432/pollsdb  spring.datasource.username=lperepol@postgresdjangoapp  spring.datasource.password=law715ren*117",
+    "node.js": "var client = new pg.Client('postgres://lperepol@postgresdjangoapp:law715ren*117@postgresdjangoapp.postgres.database.azure.com:5432/pollsdb');",
+    "php": "host=postgresdjangoapp.postgres.database.azure.com port=5432 dbname=pollsdb user=lperepol@postgresdjangoapp password=law715ren*117",
+    "psql_cmd": "psql --host=postgresdjangoapp.postgres.database.azure.com --port=5432 --username=lperepol@postgresdjangoapp --dbname=pollsdb",
+    "python": "cnx = psycopg2.connect(database='pollsdb', user='lperepol@postgresdjangoapp', host='postgresdjangoapp.postgres.database.azure.com', password='law715ren*117', port='5432')",
+    "ruby": "cnx = PG::Connection.new(:host => 'postgresdjangoapp.postgres.database.azure.com', :user => 'lperepol@postgresdjangoapp', :dbname => 'pollsdb', :port => '5432', :password => 
+'law715ren*117')",
+    "webapp": "Database=pollsdb; Data Source=postgresdjangoapp.postgres.database.azure.com; User Id=lperepol@postgresdjangoapp; Password=law715ren*117"
+  },
+  "host": "postgresdjangoapp.postgres.database.azure.com",
+  "password": "law715ren*117",
+  "username": "lperepol@postgresdjangoapp"
+}
+
+Step 2
+**********************************************************************************************************************************************************************
+az webapp up --resource-group DjangoPostgres-tutorial-rg --location westus2 --plan DjangoPostgres-tutorial-plan --sku B1 --name lawrencedjangoapp
+
+The webapp 'lawrencedjangoapp' doesn't exist
+Creating webapp 'lawrencedjangoapp' ...
+Configuring default logging for the app, if not already enabled
+Creating zip with contents of dir C:\Build\djangoapp ...
+Getting scm site credentials for zip deployment
+Starting zip deployment. This operation can take a while to complete ...
+Deployment endpoint responded with status code 202
+You can launch the app at http://lawrencedjangoapp.azurewebsites.net
+{
+  "URL": "http://lawrencedjangoapp.azurewebsites.net",
+  "appserviceplan": "DjangoPostgres-tutorial-plan",
+  "location": "westus2",
+  "name": "lawrencedjangoapp",
+  "os": "Linux",
+  "resourcegroup": "DjangoPostgres-tutorial-rg",
+  "runtime_version": "python|3.7",
+  "runtime_version_detected": "-",
+  "sku": "BASIC",
+  "src_path": "C:\\Build\\djangoapp"
+}
+
+
+****************************************************************************************************************************************************************
+az webapp config appsettings set --settings DBHOST="postgresdjangoapp" DBNAME="pollsdb" DBUSER="lperepol@postgresdjangoapp" DBPASS="law715ren*117"
+
+[
+  {
+    "name": "SCM_DO_BUILD_DURING_DEPLOYMENT",
+    "slotSetting": false,
+    "value": "True"
+  },
+  {
+    "name": "WEBSITE_HTTPLOGGING_RETENTION_DAYS",
+    "slotSetting": false,
+    "value": "3"
+  },
+  {
+    "name": "DBHOST",
+    "slotSetting": false,
+    "value": "postgresdjangoapp"
+  },
+  {
+    "name": "DBNAME",
+    "slotSetting": false,
+    "value": "pollsdb"
+  },
+  {
+    "name": "DBUSER",
+    "slotSetting": false,
+    "value": "lperepol@postgresdjangoapp"
+  },
+  {
+    "name": "DBPASS",
+    "slotSetting": false,
+    "value": "law715ren*117"
+  }
+]
+
+
+*****************************************************************************************************************************************
+###Replace <app-name> with the name used earlier in the az webapp up command.
+### az webapp up --resource-group DjangoPostgres-tutorial-rg --location westus2 --plan DjangoPostgres-tutorial-plan --sku B1 --name lawrencedjangoapp
+FATAL:  SSL connection is required. Please specify SSL options and retry.
+
+https://lawrencedjangoapp.azurewebsites.net/webssh/host
+
+lawrencedjangoapp.azurewebsites.net
